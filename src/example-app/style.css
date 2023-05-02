@@ -1,0 +1,12 @@
+.example-app {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.example-app > .examples {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}

@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap');
+
+:root {
+    font-family: 'Darumadrop One', cursive;
+    background-color: #202124;
+    color: #ffffff;
+}
+
+button, input[type="submit"] {
+    padding: 0.5rem;
+
+    border: solid #ffffff 2px;
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    background: none;
+    font-family: 'Darumadrop One', cursive;
+    color: #ffffff;
+}
+
+input[type="text"], input[type="number"], select {
+    font-family: 'Darumadrop One', cursive;
+    padding: 0.5rem;
+
+    background: none;
+    color: #ffffff;
+    border: solid 2px;
+    border-radius: 4px;
+    overflow-y: hidden;
+}
