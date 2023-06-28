@@ -13,8 +13,7 @@ With JSX you would do something like this:
 <div>
     <div className="look-cool">
         <p>Hello there!</p>
-
-        <CustomComponent prop1="Hello" className="look-cool-too" />
+        <CustomComponent prop1="Hello" className="look-cool blue" />
     </div>
 </div>
 ```
@@ -24,9 +23,8 @@ The same with this "function approach":
 ```ts
 div()(
     div(attribute("class", "look-cool"))(
-        p()("Hello there!")
-
-        CustomComponent({prop1: "Hello"}, attribute("class", "look-cool-too"))
+        p()("Hello there!"),
+        CustomComponent({prop1: "Hello"}, attribute("class", "look-cool blue"))
     )
 )
 ```
