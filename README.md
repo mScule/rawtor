@@ -104,7 +104,7 @@ export default () => {
 }
 ```
 
-At the moment those $COUNTER() components will hold their data, even when the selected view changes.
+At the moment those `$COUNTER()` components will hold their data, even when the selected view changes.
 
 ## Is it anything to write home about?
 
