@@ -1,4 +1,4 @@
-import { isRawtorObject, RawtorObject, RawtorObjectType } from "../object"
+import { isRawtorObject, RawtorObject, RawtorObjectType } from "./object"
 
 export type SignalSubscriber<T> = (value: T) => void
 

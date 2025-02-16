@@ -1,7 +1,7 @@
-import { $event } from "../../lib/$/dom"
-import { $button, $div, $p } from "../../lib/$/elements"
-import { $case, $match } from "../../lib/$/reactive"
-import { $set, $signal } from "../../lib/$/signal"
+import { $event } from "../../lib/dom"
+import { $button, $div, $p } from "../../lib/elements"
+import { $case, $match } from "../../lib/reactive"
+import { $set, $signal } from "../../lib/signal"
 
 import $COUNTER from "./$COUNTER"
 

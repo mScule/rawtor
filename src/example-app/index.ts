@@ -1,4 +1,4 @@
-import { $div, $h1 } from "../lib/$/elements.ts"
+import { $div, $h1 } from "../lib/elements.ts"
 
 import $TABS from "./components/$TABS.ts"
 

@@ -1,6 +1,6 @@
-import { $event } from "../../lib/$/dom"
-import { $button, $div, $p } from "../../lib/$/elements"
-import { $signal, $update } from "../../lib/$/signal"
+import { $event } from "../../lib/dom"
+import { $button, $div, $p } from "../../lib/elements"
+import { $signal, $update } from "../../lib/signal"
 
 export default () => {
 	const count = $signal(0)
