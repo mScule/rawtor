@@ -1,6 +1,6 @@
 import { $event } from "../../lib/dom"
 import { $button, $div, $p } from "../../lib/elements"
-import { $case, $match } from "../../lib/reactive"
+import { $case, $switch } from "../../lib/reactive"
 import { $set, $signal } from "../../lib/signal"
 
 import $COUNTER from "./$COUNTER"
@@ -12,7 +12,7 @@ export default () => {
 		$button($event("click", () => $set(selected, 0)))("to health"),
 		$button($event("click", () => $set(selected, 1)))("to armour"),
 		$button($event("click", () => $set(selected, 2)))("to attack"),
-		$match(
+		$switch(
 			selected,
 			$case(0, $div()($p()("health"), $COUNTER())),
 			$case(1, $div()($p()("armour"), $COUNTER())),

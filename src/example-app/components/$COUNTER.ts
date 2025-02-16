@@ -1,13 +1,20 @@
 import { $event } from "../../lib/dom"
 import { $button, $div, $p } from "../../lib/elements"
-import { $signal, $update } from "../../lib/signal"
+import { $map } from "../../lib/reactive"
+import { $get, $push, $remove, $signal } from "../../lib/signal"
 
 export default () => {
-	const count = $signal(0)
+	const items = $signal<string[]>([])
 
 	return $div()(
-		$p()(count),
-		$button($event("click", () => $update(count, count => count + 1)))("+"),
-		$button($event("click", () => $update(count, count => count - 1)))("-")
+		$p()(),
+		$button(
+			$event("click", () =>
+				$push(items, "Hello" + ($get(items).length + 1))
+			)
+		)("+"),
+		$map(items, (item, index) =>
+			$button($event("click", () => $remove(items, index)))(item)
+		)
 	)
 }

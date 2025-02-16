@@ -43,3 +43,13 @@ export const $subscribe = <T>(
 	signal: Signal<T>,
 	subscriber: SignalSubscriber<T>
 ) => signal.subscribe(subscriber)
+
+export const $push = <T>(signal: Signal<T[]>, item: T) => {
+	$get(signal).push(item)
+	$set(signal, $get(signal))
+}
+
+export const $remove = <T>(signal: Signal<T[]>, index: number) => {
+	$get(signal).splice(index, 1)
+	$set(signal, $get(signal))
+}
