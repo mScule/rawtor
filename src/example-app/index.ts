@@ -1,19 +1,10 @@
-import { typeless } from "../lib/component"
-import { attribute } from "../lib/dom"
-import { div, h1, h2, p, section } from "../lib/elements"
+import { $div, $h1 } from "../lib/elements.ts"
 
-import employeeRegistry from "./employeeRegistry"
+import $TABS from "./components/$TABS.ts"
 
 import "./style.css"
 
-export default typeless.leaf(() =>
-	div(attribute("class", "example-app"))(
-		h1()("Company CO. 📦"),
-		div(attribute("class", "examples"))(
-			section()(
-				h2()("Employee registry 💵"),
-				employeeRegistry()
-			)
-		)
-	)
+export default () => $div()(
+	$h1()("Example app"),
+	$TABS()
 )

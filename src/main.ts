@@ -1,6 +1,6 @@
-import { main } from "./lib/dom"
-import ExampleApp from "./example-app"
+import rawtor from "./lib"
+import exampleApp from "./example-app"
 
 import "./style.css"
 
-main("app", ExampleApp())
+rawtor("app", exampleApp())

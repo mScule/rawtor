@@ -1,11 +1,9 @@
-# 
+# RAWTOR - Reactive UI library experiment
 
 With this little project, I tried to come up with some idea to describe
-reactive UI components on my own.
+reactive UI components in some cool way without having extra compile step like JSX
 
-## Result
-
-The main "syntax" for describing the html elements is kinda cool...
+## Syntax
 
 With JSX you would do something like this:
 
@@ -13,73 +11,45 @@ With JSX you would do something like this:
 <div>
     <div className="look-cool">
         <p>Hello there!</p>
-        <CustomComponent prop1="Hello" className="look-cool blue" />
+        <CustomComponent prop1="Hello" />
     </div>
 </div>
 ```
 
-The same with this "function approach":
+The same with this "RAWTOR approach" would be:
 
 ```ts
-div()(
-    div(attribute("class", "look-cool"))(
-        p()("Hello there!"),
-        CustomComponent({prop1: "Hello"}, attribute("class", "look-cool blue"))
+$div()(
+    $div($class("look-cool"))(
+        $p()("Hello there!"),
+        $CUSTOM_COMPONENT("Hello")
     )
 )
 ```
 
-You can see that elements that can have children, return a function that has
-to be called in order to get the html element. This second function takes in the
-children elements.
+### Why in the hell are these functions prefixed with `$` ??
+
+It looks cool :D:D:D (and VS Code will suggest all the rawtor related functions right away)
 
 ## How to create a reusable component?
 
-When creating component with this thing, you first define is it
-**typed**, or **typeless**, meaning does it have props or not. Second thing is
-to choose wether the component is **parent**, or **leaf**, meaning does it have
-children or not.
-
-In the example below there's a component that returns a "dumb component"
-representing a human data..
+Components are just functions that return `HTMLElement`. All of the element functions (like `$p`) just creates `HTMLElement` instance in (IMO) cleaner way than just using `document.createElement` + some additional magic that i'll return to later. 
 
 ```ts
-interface Props {
-    name: string
-    age: number
-}
+// $HUMAN.ts
 
-export default typed.leaf<Props>(({ name, age }) =>
-    div()(
-        p()(
-            b()("Name:"),
-            name
-        ),
-        p()(
-            b()("Age:"),
-            age
-        )
-    )
+export default (name: string, age: number) => $div()(
+    $p()($b()("Name:"), name),
+    $p()($b()("Age:"), age)
 )
 ```
 
-When you create a component with the functions found inside **typed** or
-**typeless** objects, you can access them in almost the same way as you would
-with those "element functions". The one above is typed leaf, so you would need
-to give props to it but it doesn't have children so it won't return the function
-that takes in children.
+Below you can see an example where this component is being used
 
-So the way you would call it is...
 ```ts
-import human from "./path/to/human"
-
-human({ name: "Foo", age: 25 })
-```
-
-If it was **typed.parent** then you could call it like...
-```ts
-human({ name: "Foo", age: 25 })(
-    someTypelessLeafComponent()
+$div()(
+    $HUMAN("Mike", 30),
+    $HUMAN("Jack", 40)
 )
 ```
 
@@ -89,59 +59,53 @@ Can you do reactive stuff with it?
 
 Nothing fancy but yes.
 
-You can do it by using the observable function that returns some generic data
-wrapped with few functions.
+There are now two ways of doing something reactive: having reactive values as children, or having `$match` statement
 
-With these functions you can bind observer functions to the data that are then
-called when ever the data changes.
-
-There are basic **get**, **set**, and **update**
+Example below shows usage of reactive values as children
 
 ```ts
-export default typeless.leaf(() => {
-	const count = observable<number>(0)
+export default () => {
+	const count = $signal(0)
 
-	const increment = () => count.update(count => count + 1)
-	const decrement = () => count.update(count => count - 1)
-	const reset = () => count.set(0)
+	const increment = () => $update(count, value => value + 1)
+	const decrement = () => $update(count, value => value - 1)
+	const reset = () => $set(count, 0)
 
-	const counter = p()()
-
-	count.observe(() => {
-		counter.textContent = "Count: " + count.get()
-	})
-
-	return div(attribute("class", "counter"))(
-		counter,
-		div(attribute("class", "button-row"))(
-			button(event("click", increment))("Increment"),
-			button(event("click", reset))("Reset"),
-			button(event("click", decrement))("Decrement")
+	return $div($class("counter"))(
+		$span()("Count:", count),
+		$div($class("button-row"))(
+			$button($event("click", increment))("Increment"),
+			$button($event("click", reset))("Reset"),
+			$button($event("click", decrement))("Decrement")
 		)
 	)
 })
 ```
 
-As you can see in the above example, the reactivity is very barebones and hardly
-abstracts reactivity stuff from the components. This way atleast you know
-precisely what happens when the data changes. You can also see that the
-components and element functions returns just a plain HTML element. No fancy
-virtual dom stuff used.
+Theres some additional magic behind these function element thingies: They subscribe for the signals for you, so you don't have to do it by your self.
+
+Below you can see example using $match statement, which is like switch
+
+```ts
+export default () => {
+	const selected = $signal(0)
+
+	return $div()(
+		$button($event("click", () => $set(selected, 0)))("to health"),
+		$button($event("click", () => $set(selected, 1)))("to armour"),
+		$button($event("click", () => $set(selected, 2)))("to attack"),
+		$match(
+			selected,
+			$case(0, $div()($p()("health"), $COUNTER())),
+			$case(1, $div()($p()("armour"), $COUNTER())),
+			$case(2, $div()($p()("attack"), $COUNTER()))
+		)
+	)
+}
+```
+
+At the moment those $COUNTER() components will hold their data, even when the selected view changes.
 
 ## Is it anything to write home about?
 
-It was a fun to write and try different little things like counter and todo app
-for example, but I wouldn't use it in serious environments.
-
-I would count it as a esoteric ui library.
-
-Atleast it's blazingly fast 🚀🚀🚀 (maybe)
-
-
-## The Example project
-
-This contains a small example project that shows what's possible.
-
-If you want to check the source out its in the example-app directory!
-
-![Example project](./doc/example.png)
+It is just a pass time project. Nothing serious :)
