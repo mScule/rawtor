@@ -1,3 +1,4 @@
+import { HTMLElementDecorator } from "./dom"
 import { isRawtorObject, RawtorObject, RawtorObjectType } from "./object"
 
 export type SignalSubscriber<T> = (value: T) => void
@@ -53,3 +54,15 @@ export const $remove = <T>(signal: Signal<T[]>, index: number) => {
 	$get(signal).splice(index, 1)
 	$set(signal, $get(signal))
 }
+
+export const $bind =
+	(signal: Signal<string>): HTMLElementDecorator =>
+	element => {
+		element.addEventListener("change", () =>
+			$set(signal, (element as HTMLInputElement).value)
+		)
+		$subscribe(signal, value => {
+			;(element as HTMLInputElement).value = value
+			console.log(value)
+		})
+	}

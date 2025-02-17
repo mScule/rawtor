@@ -1,6 +1,6 @@
 import { $subscribe, isSignal, Signal } from "./signal"
 
-type HTMLElementDecorator = (element: HTMLElement) => void
+export type HTMLElementDecorator = (element: HTMLElement) => void
 export type ChildrenDecorator = (...children: (HTMLElementChild | Signal<any>)[]) => HTMLElement
 type HTMLElementChild = HTMLElement | string | number
 export type HTMLProps = HTMLElementDecorator[]
