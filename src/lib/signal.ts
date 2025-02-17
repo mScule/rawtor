@@ -61,8 +61,8 @@ export const $bind =
 		element.addEventListener("change", () =>
 			$set(signal, (element as HTMLInputElement).value)
 		)
-		$subscribe(signal, value => {
-			;(element as HTMLInputElement).value = value
-			console.log(value)
-		})
+		$subscribe(
+			signal,
+			value => ((element as HTMLInputElement).value = value)
+		)
 	}
