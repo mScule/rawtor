@@ -3,26 +3,46 @@ import { $get, $subscribe, Signal } from "./signal"
 
 type CheckTuple<T> = [T, HTMLElement]
 
-export const $switch = <T>(signal: Signal<T>) => (...checks: CheckTuple<T>[]) => {
-	const execute = (value: T) => {
-		for (const [matchable, then] of checks) {
-			if (value === matchable) {
-				return then
+export const $switch =
+	<T>(signal: Signal<T>) =>
+	(...checks: CheckTuple<T>[]) => {
+		const execute = (value: T) => {
+			for (const [matchable, then] of checks) {
+				if (value === matchable) {
+					return then
+				}
 			}
+
+			return $div()()
 		}
 
-		return $div()()
+		let element = execute($get(signal))
+
+		$subscribe(signal, value => {
+			let updated = execute(value)
+			element?.replaceWith(updated)
+			element = updated
+		})
+
+		return element
 	}
 
-	let element = execute($get(signal))
+export const $watch = (signals: Signal<unknown>[]) => {
+	return {
+		with: (creator: () => HTMLElement) => {
+			let element = creator()
 
-	$subscribe(signal, value => {
-		let updated = execute(value)
-		element?.replaceWith(updated)
-		element = updated
-	})
+			for (const signal of signals) {
+				$subscribe(signal, () => {
+					let updated = creator()
+					element?.replaceWith(updated)
+					element = updated
+				})
+			}
 
-	return element
+			return element
+		}
+	}
 }
 
 export const $case = <T>(value: T, then: HTMLElement): CheckTuple<T> => [
@@ -54,15 +74,15 @@ export const $if = (signal: Signal<boolean>) => ({
 			}
 			return $div()()
 		}
-	
+
 		let element = execute($get(signal))
-	
+
 		$subscribe(signal, value => {
 			let updated = execute(value)
 			element?.replaceWith(updated)
 			element = updated
 		})
-	
+
 		return element
 	}
 })

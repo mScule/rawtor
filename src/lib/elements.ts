@@ -50,6 +50,7 @@ export const $textArea = (...decorators: HTMLProps) => $element("textarea", ...d
 export const $progress = (...decorators: HTMLProps) => $element("progress", ...decorators)
 export const $button = (...decorators: HTMLProps) => $element("button", ...decorators)
 
+export const $label = (...decorators: HTMLProps) => $element("label", ...decorators)
 export const $checkBox = (...decorators: HTMLProps) => $element("input", $type("checkbox"), ...decorators)()
 export const $radioButton = (...decorators: HTMLProps) => $element("input", $type("radio"), ...decorators)()
 export const $textField = (...decorators: HTMLProps) => $element("input", $type("type"), ...decorators)()
